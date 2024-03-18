@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client
+  namespace: spring-app
+spec:
+  containers:
+    - name: client
+      image: client:1.0.0
+      imagePullPolicy: Never
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+      ports:
+        - containerPort: 8080

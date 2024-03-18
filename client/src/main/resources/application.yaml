@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: client
+  cloud:
+    kubernetes:
+      config:
+        namespace: spring-app
+

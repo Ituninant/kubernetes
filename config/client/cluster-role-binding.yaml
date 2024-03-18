@@ -1,0 +1,14 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: service-reader-pod
+  namespace: spring-app
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: spring-app
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: service-reader
+
