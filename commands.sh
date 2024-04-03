@@ -1,6 +1,6 @@
 minikube start --cpus 4 --memory 8192
 minikube addons enable metrics-server
-minikube bashboard
+minikube dashboard
 
 mvn spring-boot:build-image -Pnative
 
@@ -30,3 +30,7 @@ kubectl delete -n spring-app service spring-app-service
 kubectl create clusterrolebinding service-reader-pod --clusterrole=service-reader --serviceaccount=default:default
 
 kubectl create secret generic db-secret --from-literal=username=postgres --from-literal=password=12345
+
+minikube addons enable ingress
+minikube ip
+

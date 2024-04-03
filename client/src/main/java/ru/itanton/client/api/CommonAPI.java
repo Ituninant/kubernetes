@@ -20,18 +20,25 @@ public class CommonAPI {
 
     @PostConstruct
     void init() {
-        log.debug("currentPod = {}", Optional.ofNullable(System.getenv("HOSTNAME")).orElse("Unknown"));
+        log.debug("currentPod = {}", getCurrentPodName());
         log.debug("myProperty = {}", myProperty);
     }
 
     @GetMapping("property")
     public String getMyProperty() {
+        log.debug("CommonAPI.getMyProperty");
         return myProperty;
     }
 
     @GetMapping("currentPod")
     public String currentPod() {
+        log.debug("CommonAPI.currentPod");
+        return getCurrentPodName();
+    }
+
+    private String getCurrentPodName() {
         return Optional.ofNullable(System.getenv("HOSTNAME")).orElse("Unknown");
     }
+
 
 }
