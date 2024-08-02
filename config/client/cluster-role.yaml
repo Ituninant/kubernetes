@@ -1,8 +1,8 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  namespace: spring-app
   name: service-reader
+  namespace: spring-app
 rules:
   - apiGroups: [""]
     resources: ["*"]
