@@ -8,4 +8,51 @@ services:
       POSTGRES_PASSWORD: 12345
       POSTGRES_DB: kube
     ports:
-      - 5432:5432
+      - "5432:5432"
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.43.0
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "4417:4317"
+      - "4418:4318"
+      - "16686:16686"
+
+  prometheus:
+    image: prom/prometheus:v2.34.0
+    command: --config.file=/etc/prometheus/prometheus.yml --no-scrape.adjust-timestamps
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    volumes:
+      - ./config/grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - GF_SECURITY_ADMIN_USER=grafana
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.2
+    environment:
+      - ELASTICSEARCH_HOSTS=["http://elasticsearch:9200"]
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+

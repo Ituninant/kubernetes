@@ -1,0 +1,52 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel-agent
+  namespace: spring-app
+#  labels:
+#    app: otel-agent
+spec:
+  mode: daemonset
+  image: otel/opentelemetry-collector-contrib:0.105.0
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+    processors:
+      batch: {}
+
+    exporters:
+      #  logging:
+      #    loglevel: debug
+      otlp:
+        endpoint: http://host.minikube.internal:4317
+        tls:
+          insecure: true
+      prometheus:
+        endpoint: 0.0.0.0:8889
+      elasticsearch:
+        endpoints: [ "http://host.minikube.internal:9200" ]
+        logs_index: "otel-collector"
+        tls:
+          insecure: true
+
+    service:
+      pipelines:
+        traces:
+          receivers: [ otlp ]
+          processors: [ batch ]
+          exporters: [ otlp ]
+        metrics:
+          receivers: [ otlp ]
+          processors: [ batch ]
+          exporters: [ prometheus ]
+        logs:
+          receivers: [ otlp ]
+          processors: [ batch ]
+          exporters: [ elasticsearch ]
+
