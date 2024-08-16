@@ -32,6 +32,7 @@ kubectl create clusterrolebinding service-reader-pod --clusterrole=service-reade
 kubectl create secret generic db-secret --from-literal=username=postgres --from-literal=password=12345
 
 minikube addons enable ingress
+minikube tunnel
 minikube ip
 
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.2/cert-manager.yaml

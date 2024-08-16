@@ -24,7 +24,7 @@ spec:
       #  logging:
       #    loglevel: debug
       otlp:
-        endpoint: http://host.minikube.internal:4317
+        endpoint: http://host.minikube.internal:4417
         tls:
           insecure: true
       prometheus:

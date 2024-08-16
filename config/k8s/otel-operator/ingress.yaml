@@ -6,13 +6,21 @@ metadata:
 spec:
   rules:
 #   modify hosts file for working
-    - host: otel-agent.kuber
+    - host: otel-agent.minikube.com
       http:
         paths:
-          - path: /
+          - path: /metrics
             pathType: Prefix
             backend:
               service:
                 name: otel-agent-collector
                 port:
                   number: 8889
+          - path: /v1
+            pathType: Prefix
+            backend:
+              service:
+                name: otel-agent-collector
+                port:
+                  number: 4318
+

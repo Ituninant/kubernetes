@@ -6,7 +6,7 @@ metadata:
 spec:
   rules:
 #   modify hosts file for working
-    - host: client.kuber
+    - host: client.minikube.com
       http:
         paths:
           - path: /
